@@ -12,7 +12,10 @@ soup1 = BeautifulSoup(page1)
 contents = [str(x.text) for x in soup1.find_all('option')]
 courseNames = [contents[4].split()]
 #print courseNames
+
+#get every option of course from options 
 data = []
+courseData =[]
 counter =0
 for cn in courseNames[0]:
 
@@ -72,7 +75,15 @@ for cn in courseNames[0]:
 					 course = course.previous.previousSibling
 					 course_details = course.find_all('td')
 					 #print course_details
+# 					 courseInfo = {'Program': str(course_details[0].string.strip()),
+#  							'coursenum': str(course_details[1].string),
+# 							'courseName': str(course_details[3].string)
+# 								 }
+# 					 courseData.append(courseInfo)
+	
+# print courseData
 
+					 #takes every third tabre row after the first ever to get infro like coursename and courseumber 
 				
 				rows = tab.find_all('tr')
 				listtab=[]
@@ -82,87 +93,127 @@ for cn in courseNames[0]:
 					special = "NULL"
 
 					if( (len(t) == 13) or (len(t) == 12) and t[1].string[0:3] != "TST") :
+						print t
 						
-						listtab.append(t)
-						# print t[10].next
-						# if(t[10].next.next.name  == "br"):
-						# 	print t[10].next.next.string 
-						if(len(t[1].text) == 8):
-							currentType = t[1].text[0:3]
-						if(len(t[10].text) < 10):
-							continue
-						if(len(t[11].text) < 2):
-							continue
-						times = t[10].text.split("-")
-						if(times[0] != "TBA"):
-							counter+=1
-							if(times[1].find("Th") != -1):
-								times[1] = times[1].replace("Th","")
-								dates = dates+"4"
-							if(times[1].find("T") != -1):
-								times[1] = times[1].replace("T","")
-								dates = dates+"2"
-							if(times[1].find("M") != -1):
-								times[1] = times[1].replace("M","")
-								dates = dates+"1"
-							if(times[1].find("W") != -1):
-								times[1] = times[1].replace("W","")
-								dates = dates+"3"
-							if(times[1].find("F") != -1):
-								times[1] = times[1].replace("F","")
-								dates = dates+"5"
-							if(len(times[1]) > 5):
-								special = times[1][2:].split("0",1)[1]
-								special = special.replace("/","-")
-								special = str(date.today().year)+"-"+special
-							if(dates == ""):
-								dates ="NULL"
-							location = t[11].text.split(" ",1)
-							building = location[0].strip()
-							clsnum = location[1].strip()
-							hourstr =int(times[0][0:2])
-							hourend = int(times[1][0:2])
-							firstName = "NULL"
-							lastName = "NULL"
-							if( (hourstr <= 7) ):
-								hourstr +=12
-								hourend += 12
-								times[0] = times[0].replace(times[0][0:2],str(hourstr))
-								times[1] = times[1].replace(times[1][0:2],str(hourend))
+# 						listtab.append(t)
+# 						# print t[10].next
+# 						# if(t[10].next.next.name  == "br"):
+# 						# 	print t[10].next.next.string 
+# 						if(len(t[1].text) == 8):
+# 							currentType = t[1].text[0:3]
+# 						if(len(t[10].text) < 10):
+# 							continue
+# 						if(len(t[11].text) < 2):
+# 							continue
+# 						times = t[10].text.split("-")
+# 						if(times[0] != "TBA"):
+# 							counter+=1
+# 							if(times[1].find("Th") != -1):
+# 								times[1] = times[1].replace("Th","")
+# 								dates = dates+"4"
+# 							if(times[1].find("T") != -1):
+# 								times[1] = times[1].replace("T","")
+# 								dates = dates+"2"
+# 							if(times[1].find("M") != -1):
+# 								times[1] = times[1].replace("M","")
+# 								dates = dates+"1"
+# 							if(times[1].find("W") != -1):
+# 								times[1] = times[1].replace("W","")
+# 								dates = dates+"3"
+# 							if(times[1].find("F") != -1):
+# 								times[1] = times[1].replace("F","")
+# 								dates = dates+"5"
+# 							if(len(times[1]) > 5):
+# 								special = times[1][2:].split("0",1)[1]
+# 								special = special.replace("/","-")
+# 								special = str(date.today().year)+"-"+special
+# 							if(dates == ""):
+# 								dates ="NULL"
+					
+# 							hourstr =int(times[0][0:2])
+# 							hourend = int(times[1][0:2])
+# 							addy = t[11].text
+# 							clsnum = ""
+# 							building = ""
+# 							if(addy.find(" ") != -1):
+# 								location = t[11].text.split(" ",1)
+# 								building = location[0].strip()
+# 								clsnum = location[1].strip()
+
+# 							else:
+# 								location = addy.split("U")
+# 								building = location[0].strip()+"U"
+# 								clsnum = location[1].strip()
+# 							firstName = "NULL"
+# 							lastName = "NULL"
+# 							if( (hourstr <= 7) ):
+# 								hourstr +=12
+# 								hourend += 12
+# 								times[0] = times[0].replace(times[0][0:2],str(hourstr))
+# 								times[1] = times[1].replace(times[1][0:2],str(hourend))
 								
-							if( (hourstr == 12) ):
-								hourend += 12
-								times[1] = times[1].replace(times[1][0:2],str(hourend))
-							if(len(t) == 13):
-								if(t[12].text.find(",") != -1):	
-					 				names = t[12].text.split(",")
-					 				firstName  = names[0]
-					 				lastName = names[1].strip()
-							print (str(course_details[0].string.strip()),str(course_details[1].string),str(currentType),(str(times[0]) + ":00"),(str(times[1])[0:5] + ":00"),str(special), str(building), str(clsnum),dates, str(firstName),str(lastName))
-							info = {'Program': str(course_details[0].string.strip()),
-									'coursenum': str(course_details[1].string),
-									'type': str(currentType),
-									'start': str(times[0]) + ":00",
-									'end': str(times[1])[0:5] + ":00",
-									'date': str(special),
-									'building': str(building),
-									'classNum': str(clsnum),
-									'days': str(dates),
-									'firstName': str(firstName),
-									'lastName': str(lastName)
-							}
-							data.append(info)
-							fulltab.append(listtab)
+# 							if( (hourstr == 12) ):
+# 								hourend += 12
+# 								times[1] = times[1].replace(times[1][0:2],str(hourend))
+# 							if(len(t) == 13):
+# 								if(t[12].text.find(",") != -1):	
+# 					 				names = t[12].text.split(",")
+# 					 				firstName  = names[0]
+# 					 				lastName = names[1].strip()
+# 							#print (str(course_details[3].string),str(course_details[0].string.strip()),str(course_details[1].string),str(currentType),(str(times[0]) + ":00"),(str(times[1])[0:5] + ":00"),str(special), str(building), str(clsnum),dates, str(firstName),str(lastName))
+# 							info = {'Program': str(course_details[0].string.strip()),
+# 									'coursenum': str(course_details[1].string),
+# 									'courseName': str(course_details[3].string),
+# 									'type': str(currentType),
+# 									'start': str(times[0]) + ":00",
+# 									'end': str(times[1])[0:5] + ":00",
+# 									'date': str(special),
+# 									'building': str(building),
+# 									'classNum': str(clsnum),
+# 									'days': str(dates),
+# 									'firstName': str(firstName),
+# 									'lastName': str(lastName)
+# 							}
+# 							data.append(info)
+# 							fulltab.append(listtab)
 
-for a in data:
-	print a
-print json.dumps(data)
 
-dataFile = open('../info.txt', 'w')
-dataFile.write(json.dumps(data))
-dataFile.close()
+# var = {'courseTitle': data[0]["Program"],
+#  	    'courseNumber': data[0]["coursenum"],
+#  		'courseDesc': data[0]["courseName"]
+#  		   }
 
-				
+# courseData.append(var)
+
+# for a in data:
+
+# 	if(a["courseName"] != var['courseDesc']):
+# 		info2 = {'courseTitle': a["Program"],
+# 		   			 'courseNumber': a["coursenum"],
+# 		   			 'courseDesc': a["courseName"],
+# 					}
+# 		courseData.append(info2)
+# 		var = info2
+
+# print courseData
+	
+# #for a in data:
+# # 	print a 
+# print json.dumps(data)
+
+# #for a in courseData:
+# # 	print a 
+# print json.dumps(courseData)
+
+# dataFile = open('/Applications/MAMP/htdocs/Class/info.txt', 'w')
+# dataFile.write(json.dumps(data))
+# dataFile.close()
+
+
+# dataFile = open('/Applications/MAMP/htdocs/Class/info2.txt', 'w')
+# dataFile.write(json.dumps(courseData))
+# dataFile.close()
+			
 
 		
 
