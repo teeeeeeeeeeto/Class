@@ -194,11 +194,11 @@ buildingData.append(var2)
 # <-- getting the building info  -->
 for a in data:
 	if a['building'] in buildingData:
-		print ""
+		pass
 	else:
 		buildingData.append(a['building'])
 
-print buildingData
+#print buildingData
 
 # <-- getting the course data which in coursetitle,coursenum,coursename  -->
 for a in data:
@@ -212,31 +212,214 @@ for a in data:
 		var = info2
 
 
-#<-- checking data of lecture before before adding to file  -->
-print json.dumps(data)
+#print json.dumps(data)
 
 
 #<-- checking data of class before before adding to file  -->
-print json.dumps(courseData)
+#print json.dumps(courseData)
 
+
+buildingRooms = []
+var3 = data[0]['classNum']
+roomNumber = {'building': buildingData[0],
+			  'roomNum': var3
+			 }
+
+buildingRooms.append(roomNumber)
+for a in buildingData:
+	roomNumbers =[]
+	roomNumbers.append(var3)
+	for b in data:
+		if (a == b['building']):
+			if(b['classNum'] in roomNumbers):
+				pass
+			else:
+				roomNumbers.append(b['classNum'])
+				room = {'building': a,
+						'roomNum': b['classNum']
+						}
+				buildingRooms.append(room)
+
+#print buildingRooms
+# for a in data:
+# 	print a
+mondayclassRoomsUsage =[]
+for a in buildingRooms:
+	times = []
+	for b in data:
+		if(b['building'] == a['building'] and b['classNum'] == a['roomNum'] ):
+			if("1" in b['days'] ):
+				time = {'endTime': b['end'],
+						'startTime': b['start']
+				}
+				if time in times:
+					pass
+				else:
+					times.append(time)
+					times =sorted(times, key=lambda k: k['startTime'])
+
+
+	var4 = { 'buiding': a['building'],
+			'roomNumb': a['roomNum'],
+			'times': times,
+			'day': 1
+	}
+	if (times== []):
+		pass
+	else:
+		mondayclassRoomsUsage.append(var4)	
+# print "\n"
+# print "MONDAY"
+# print "\n"	
+# print mondayclassRoomsUsage	
+
+
+tuesdayclassRoomsUsage =[]
+for a in buildingRooms:
+	times = []
+	for b in data:
+		if(b['building'] == a['building'] and b['classNum'] == a['roomNum'] ):
+			if("2" in b['days'] ):
+				time = {'endTime': b['end'],
+						'startTime': b['start']
+				}
+				if time in times:
+					pass
+				else:
+					times.append(time)
+					times =sorted(times, key=lambda k: k['startTime'])
+
+
+	var4 = { 'buiding': a['building'],
+			'roomNumb': a['roomNum'],
+			'times': times,
+			'day': 2
+	}
+	if (times== []):
+		pass
+	else:
+		tuesdayclassRoomsUsage.append(var4)
+	
+
+wedclassRoomsUsage =[]
+for a in buildingRooms:
+	times = []
+	for b in data:
+		if(b['building'] == a['building'] and b['classNum'] == a['roomNum'] ):
+			if("3" in b['days'] ):
+				time = {'endTime': b['end'],
+						'startTime': b['start']
+				}
+				if time in times:
+					pass
+				else:
+					times.append(time)
+					times =sorted(times, key=lambda k: k['startTime'])
+
+
+	var4 = { 'buiding': a['building'],
+			'roomNumb': a['roomNum'],
+			'times': times,
+			'day': 3
+	}
+	if (times== []):
+		pass
+	else:
+		wedclassRoomsUsage.append(var4)
+print "\n\n\n"
+print "WEDNESDAY"
+print "\n"
+print wedclassRoomsUsage	
+
+thuclassRoomsUsage =[]
+for a in buildingRooms:
+	times = []
+	for b in data:
+		if(b['building'] == a['building'] and b['classNum'] == a['roomNum'] ):
+			if("4" in b['days'] ):
+				time = {'endTime': b['end'],
+						'startTime': b['start']
+				}
+				if time in times:
+					pass
+				else:
+					times.append(time)
+					times =sorted(times, key=lambda k: k['startTime'])
+
+
+	var4 = { 'buiding': a['building'],
+			'roomNumb': a['roomNum'],
+			'times': times,
+			'day': 4
+	}
+	if (times== []):
+		pass
+	else:
+		thuclassRoomsUsage.append(var4)
+print "\n\n\n"
+print "THURSDAY"
+print "\n"
+print thuclassRoomsUsage	
+
+friclassRoomsUsage =[]
+for a in buildingRooms:
+	times = []
+	for b in data:
+		if(b['building'] == a['building'] and b['classNum'] == a['roomNum'] ):
+			if("5" in b['days'] ):
+				time = {'endTime': b['end'],
+						'startTime': b['start']
+				}
+				if time in times:
+					pass
+				else:
+					times.append(time)
+					times =sorted(times, key=lambda k: k['startTime'])
+
+
+	var4 = { 'buiding': a['building'],
+			'roomNumb': a['roomNum'],
+			'times': times,
+			'day': 5
+	}
+	if (times== []):
+		pass
+	else:
+		friclassRoomsUsage.append(var4)
+print "\n\n\n"
+print "FRIDAY"
+print "\n"
+print friclassRoomsUsage	
+
+
+allclassInfo = []
+allclassInfo.append(mondayclassRoomsUsage)
+allclassInfo.append(tuesdayclassRoomsUsage)
+allclassInfo.append(wedclassRoomsUsage)
+allclassInfo.append(thuclassRoomsUsage)
+allclassInfo.append(friclassRoomsUsage)
+
+#print allclassInfo
 #<-- Adding the JSON data about  lectureto lecture.txt -->
-dataFile = open('/Applications/MAMP/htdocs/Class/lecture.txt', 'w')
-dataFile.write(json.dumps(data))
-dataFile.close()
+# dataFile = open('/Applications/MAMP/htdocs/Class/lecture.txt', 'w')
+# dataFile.write(json.dumps(data))
+# dataFile.close()
 
-# <-- Adding the JSON data about courses to class.txt -->
-dataFile = open('/Applications/MAMP/htdocs/Class/courses.txt', 'w')
-dataFile.write(json.dumps(courseData))
-dataFile.close()
+# # <-- Adding the JSON data about courses to class.txt -->
+# dataFile = open('/Applications/MAMP/htdocs/Class/courses.txt', 'w')
+# dataFile.write(json.dumps(courseData))
+# dataFile.close()
 			
- #<-- Adding the JSON data about buildings to class.txt -->
-dataFile = open('/Applications/MAMP/htdocs/Class/building.txt', 'w')
-dataFile.write(json.dumps(buildingData))
-dataFile.close()
-			
+# #<-- Adding the JSON data about buildings to building.txt -->
+# dataFile = open('/Applications/MAMP/htdocs/Class/building.txt', 'w')
+# dataFile.write(json.dumps(buildingData))
+# dataFile.close()
 
-		
+# # <-- Adding the JSON data about class times for each day to allclassInfo.txt -->
+# dataFile = open('/Applications/MAMP/htdocs/Class/allclassInfo.txt', 'w')
+# dataFile.write(json.dumps(allclassInfo))
+# dataFile.close()
 
 
 
-
+	
