@@ -262,7 +262,6 @@ for  a in progNames:
 					courseInfo.append(info)
 
 
-
 #<-- checking data of class before before adding to file  -->
 #print json.dumps(courseData)
 
@@ -294,32 +293,41 @@ for a in buildingData:
 mondayclassRoomsUsage =[]
 for a in buildingRooms:
 	times = []
+	infos = []
 	for b in data:
 		if(b['building'] == a['building'] and b['classNum'] == a['roomNum'] ):
 			if("1" in b['days'] ):
 				time = {'endTime': b['end'],
-						'startTime': b['start']
+						'startTime': b['start'],
+						
 				}
-				if time in times:
-					pass
-				else:
+				if time not in times:
+				
 					times.append(time)
-					times =sorted(times, key=lambda k: k['startTime'])
+					info = {'endTime': b['end'],
+						'startTime': b['start'],
+						'DayID': 1,
+						'FirstName': b['firstName'],
+						'LastName': b['lastName'],
+						'ProgramDesc': b['Program'],
+						'CourseName': b['coursenum']
+						}
+					infos.append(info)
+					infos =sorted(infos, key=lambda k: k['startTime'])
 
 
-	var4 = { 'buiding': a['building'],
+	var4 = { 'building': a['building'],
 			'roomNumb': a['roomNum'],
-			'times': times,
-			'day': 1
+			'times': infos
 	}
-	if (times== []):
+	if (infos == []):
 		pass
 	else:
 		mondayclassRoomsUsage.append(var4)	
 # print "\n"
 # print "MONDAY"
 # print "\n"	
-# print mondayclassRoomsUsage	
+#print mondayclassRoomsUsage	
 
 
 tuesdayclassRoomsUsage =[]
@@ -341,7 +349,11 @@ for a in buildingRooms:
 	var4 = { 'buiding': a['building'],
 			'roomNumb': a['roomNum'],
 			'times': times,
-			'day': 2
+			'DayID': 2,
+			'FirstName': b['firstName'],
+			'LastName': b['lastName'],
+			'ProgramDesc': b['Program'],
+			'CourseName': b['courseName']
 	}
 	if (times== []):
 		pass
@@ -368,7 +380,11 @@ for a in buildingRooms:
 	var4 = { 'buiding': a['building'],
 			'roomNumb': a['roomNum'],
 			'times': times,
-			'day': 3
+			'DayID': 3,
+			'FirstName': b['firstName'],
+			'LastName': b['lastName'],
+			'ProgramDesc': b['Program'],
+			'CourseName': b['courseName']
 	}
 	if (times== []):
 		pass
@@ -398,7 +414,11 @@ for a in buildingRooms:
 	var4 = { 'buiding': a['building'],
 			'roomNumb': a['roomNum'],
 			'times': times,
-			'day': 4
+			'DayID': 4,
+			'FirstName': b['firstName'],
+			'LastName': b['lastName'],
+			'ProgramDesc': b['Program'],
+			'CourseName': b['courseName']
 	}
 	if (times== []):
 		pass
@@ -428,7 +448,11 @@ for a in buildingRooms:
 	var4 = { 'buiding': a['building'],
 			'roomNumb': a['roomNum'],
 			'times': times,
-			'day': 5
+			'DayID': 5,
+			'FirstName': b['firstName'],
+			'LastName': b['lastName'],
+			'ProgramDesc': b['Program'],
+			'CourseName': b['courseName']
 	}
 	if (times== []):
 		pass
@@ -439,13 +463,120 @@ for a in buildingRooms:
 # print "\n"
 # print friclassRoomsUsage	
 
-print buildingData
+#print buildingData
 allclassInfo = []
 allclassInfo.append(mondayclassRoomsUsage)
 allclassInfo.append(tuesdayclassRoomsUsage)
 allclassInfo.append(wedclassRoomsUsage)
 allclassInfo.append(thuclassRoomsUsage)
 allclassInfo.append(friclassRoomsUsage)
+
+
+buildingInfo = []
+count3 = 0
+for a in buildingData:
+	info = {'BuildingID': 300000 + count3,
+			'BuildingName': a}
+	buildingInfo.append(info)
+	count3 += 1
+# print buildingInfo
+
+# Class
+ClassInfo = []
+Classes = []
+room = { 'BuildingName' : data[0]['building'],
+			'ClassNum':	data[0]['classNum']
+			}
+	
+#print allclassInfo
+
+info = {'ClassID': 400000,
+		'BuildingID':  300000,
+		'ClassNum': data[0]['classNum']
+					}
+Classes.append(room)
+ClassInfo.append(info)
+count4 = 1
+for a in buildingInfo:
+	for b in data:
+		test = { 'BuildingName' : b['building'],
+			'ClassNum':	b['classNum']
+
+		}
+		if test not in Classes:
+			for c in buildingInfo:
+				if c['BuildingName'] == b['building']:
+					info = {'ClassID': 400000 + count4,
+						'BuildingID':  c['BuildingID'],
+						'ClassNum': b['classNum']
+					}
+					count4 += 1
+					Classes.append(test)
+					ClassInfo.append(info)
+
+
+
+# for a in allclassInfo:
+
+# 	for b in buildingInfo:
+# 		if a['buildng'] == b['BuildingName']:		
+# 			buildng = b['BuildingID']
+# 	for c in ClassInfo:
+# 		if a['roomNumb'] == c['ClassNum'] and building == c['BuildingID']]
+# 			classroom = c['ClassID']
+
+# 			StartTime = a['start']
+# 			EndTime = a['end']
+# 	if a['days']
+
+# for a in data:
+# 	if "1" in a['days']:
+count6 = 0
+LectureID = 500000
+MondayInfo = []
+classroom = 0
+for a in mondayclassRoomsUsage:
+	for b in buildingInfo:
+		if a['building'] == b['BuildingName']:		
+			buildng = b['BuildingID']
+	for c in ClassInfo:
+		if( a['roomNumb'] == c['ClassNum'] and buildng == c['BuildingID']):
+			classroom = c['ClassID']
+			for d in a['times']:
+				StartTime = d['startTime']
+				EndTime = d['endTime']
+				DayID = d['DayID']
+				FirstName = d['FirstName']
+				LastName = d['LastName']
+				ProgramID = 0
+				CourseID = 0
+				CourseName =d['CourseName']
+				LectureID += 1
+				for e in progInfo:
+					if(d['ProgramDesc'] == e['ProgramDesc']):
+						ProgramID = e['ProgramID']
+				for f in courseInfo:
+					if(ProgramID == f['ProgramID'] and CourseName == f['courseName'] ):
+						CourseID = f['CourseID']
+
+				info = {  'LectureID': LectureID,
+							'ClassID': classroom,
+							'StartTime': StartTime,
+							'EndTime': EndTime,
+							'DayID': DayID,
+							'FirstName': FirstName,
+							'LastName': LastName,
+							'CourseID': CourseID
+
+				}
+				MondayInfo.append(info)
+	count6 += 1
+				
+				
+# print buildingInfo
+# print mondayclassRoomsUsage
+print MondayInfo
+
 
 #print allclassInfo
 #<-- Adding the JSON data about  lectureto lecture.txt -->
