@@ -213,6 +213,25 @@ for a in data:
 
 
 #print json.dumps(data)
+progNames=[]
+progInfo =[]
+var5 = { 'ProgramDesc':data[0]['Program'],
+		'ProgramID':  100000
+		
+}
+var6 = data[0]['Program']
+progNames.append(var6)
+progInfo.append(var5)
+count = 1
+for a in data:
+	
+	if a['Program'] not in progNames:
+		info = {'ProgramDesc':a['Program'],
+				'ProgramID':  100000 + count
+				}
+		count += 1
+		progInfo.append(info)
+		progNames.append(a['Program'])
 
 
 #<-- checking data of class before before adding to file  -->
@@ -326,10 +345,10 @@ for a in buildingRooms:
 		pass
 	else:
 		wedclassRoomsUsage.append(var4)
-print "\n\n\n"
-print "WEDNESDAY"
-print "\n"
-print wedclassRoomsUsage	
+# print "\n\n\n"
+# print "WEDNESDAY"
+# print "\n"
+# print wedclassRoomsUsage	
 
 thuclassRoomsUsage =[]
 for a in buildingRooms:
@@ -356,10 +375,10 @@ for a in buildingRooms:
 		pass
 	else:
 		thuclassRoomsUsage.append(var4)
-print "\n\n\n"
-print "THURSDAY"
-print "\n"
-print thuclassRoomsUsage	
+# print "\n\n\n"
+# print "THURSDAY"
+# print "\n"
+# print thuclassRoomsUsage	
 
 friclassRoomsUsage =[]
 for a in buildingRooms:
@@ -386,10 +405,10 @@ for a in buildingRooms:
 		pass
 	else:
 		friclassRoomsUsage.append(var4)
-print "\n\n\n"
-print "FRIDAY"
-print "\n"
-print friclassRoomsUsage	
+# print "\n\n\n"
+# print "FRIDAY"
+# print "\n"
+# print friclassRoomsUsage	
 
 
 allclassInfo = []
@@ -420,6 +439,10 @@ allclassInfo.append(friclassRoomsUsage)
 # dataFile.write(json.dumps(allclassInfo))
 # dataFile.close()
 
+# # <-- Adding the JSON data about class times for each day to allclassInfo.txt -->
+dataFile = open('/Applications/MAMP/htdocs/Class/program.txt', 'w')
+dataFile.write(json.dumps(progInfo))
+dataFile.close()
 
 
 	
