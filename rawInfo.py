@@ -179,7 +179,6 @@ for cn in courseNames[0]:
 							data.append(info)
 							fulltab.append(listtab)
 
-
 var = {'courseTitle': data[0]["Program"],
  	    'courseNumber': data[0]["coursenum"],
  		'courseDesc': data[0]["courseName"]
@@ -232,6 +231,36 @@ for a in data:
 		count += 1
 		progInfo.append(info)
 		progNames.append(a['Program'])
+
+courseNames =[]
+courseInfo = []
+var7 = { 'CourseID': 200000,
+		'ProgramID': progInfo[0]['ProgramID'],
+		'courseName': data[0]['coursenum'],
+		'courseDesc': data[0]['courseName']}
+var8 = {'program': data[0]['Program'],
+		'Coursename': data[0]['coursenum']}
+courseNames.append(var8)
+courseInfo.append(var7)
+count2 = 1
+for  a in progNames:
+	for b in data:
+		test ={ 'program': b['Program'],
+				'Coursename': b['coursenum']
+		}
+
+		if test not in courseNames:
+			for c in progInfo:
+				if c['ProgramDesc'] == b['Program']:
+					info = {'CourseID': 200000 + count2,
+						'ProgramID':  c['ProgramID'],
+						'courseName': b['coursenum'],
+						'courseDesc': b['courseName']
+					}
+					count2 += 1
+					courseNames.append(test)
+					courseInfo.append(info)
+
 
 
 #<-- checking data of class before before adding to file  -->
@@ -410,7 +439,7 @@ for a in buildingRooms:
 # print "\n"
 # print friclassRoomsUsage	
 
-
+print buildingData
 allclassInfo = []
 allclassInfo.append(mondayclassRoomsUsage)
 allclassInfo.append(tuesdayclassRoomsUsage)
@@ -440,9 +469,9 @@ allclassInfo.append(friclassRoomsUsage)
 # dataFile.close()
 
 # # <-- Adding the JSON data about class times for each day to allclassInfo.txt -->
-dataFile = open('/Applications/MAMP/htdocs/Class/program.txt', 'w')
-dataFile.write(json.dumps(progInfo))
-dataFile.close()
+# dataFile = open('/Applications/MAMP/htdocs/Class/program.txt', 'w')
+# dataFile.write(json.dumps(progInfo))
+# dataFile.close()
 
 
 	
